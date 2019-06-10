@@ -1,3 +1,7 @@
 #How to copy content of a file to clipboard`
 
 xclip -sel c < file
+
+
+// sample i3 config
+https://gitlab.com/Teeffelen/dotfiles/blob/master/.config/i3/config
