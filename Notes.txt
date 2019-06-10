@@ -1,0 +1,3 @@
+#How to copy content of a file to clipboard`
+
+xclip -sel c < file
