@@ -5,3 +5,6 @@ xclip -sel c < file
 
 // sample i3 config
 https://gitlab.com/Teeffelen/dotfiles/blob/master/.config/i3/config
+
+// smooth fonts
+https://www.reddit.com/r/archlinux/comments/5r5ep8/make_your_arch_fonts_beautiful_easily/
