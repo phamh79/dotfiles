@@ -1,8 +1,0 @@
-{
-	// Controls the font family.
-	"editor.fontFamily": "Ubuntu",
-	// Controls the font size.
-	"editor.fontSize": 15,
-	"terminal.integrated.fontFamily": "Ubuntu Mono derivative Powerline",
-	"terminal.integrated.fontSize":  17
-}
