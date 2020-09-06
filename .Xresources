@@ -6,7 +6,7 @@ Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
 
-rofi.font: SF Pro Text 14
+rofi.font: Roboto 20
 rofi.hide-scrollbar: true
 rofi.separator-style: none
 rofi.color-enabled: true

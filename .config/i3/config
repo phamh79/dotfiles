@@ -81,6 +81,9 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 # toggle split orientation
 bindsym $mod+BackSpace split toggle
+# back and forth
+bindsym $mod+Tab workspace back_and_forth
+
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
