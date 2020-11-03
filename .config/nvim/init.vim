@@ -19,8 +19,6 @@ Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
-Plug 'itchyny/lightline.vim'
-"Plug 'maximbaz/lightline-ale'
 Plug 'junegunn/goyo.vim'
 "Plug 'chiel92/vim-autoformat'
 "Plug 'psliwka/vim-smoothie'
@@ -52,7 +50,6 @@ Plug 'joshdick/onedark.vim'
 Plug 'jacoborus/tender.vim'
 Plug 'nlknguyen/papercolor-theme'
 Plug 'gruvbox-community/gruvbox'
-Plug 'shinchu/lightline-gruvbox.vim'
 Plug 'owickstrom/vim-colors-paramount'
 Plug 'ryanoasis/vim-devicons'
 
@@ -201,32 +198,6 @@ map <Leader>[] :bnext<CR>
 "vim auto format
 "let g:python3_host_prog='/usr/bin/python'
 
-let g:lightline = {
-     \ 'colorscheme': 'ayu',
-       \ 'active': {
-       \   'left': [ [ 'mode', 'paste' ],
-       \             ['readonly', 'modified' ],
-       \             ['absolutepath']],
-       \   'right': [[ 'gitbranch'],
-       \            ['filetype'],
-       \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]],
-       \ },
-       \ 'component_function': {
-       \   'gitbranch': 'gitbranch#name',
-       \ },
-      \ }
-let g:lightline.component_expand = {
-      \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_warnings': 'lightline#ale#warnings',
-      \  'linter_errors': 'lightline#ale#errors',
-      \  'linter_ok': 'lightline#ale#ok',
-      \ }
-let g:lightline.component_type = {
-      \     'linter_checking': 'left',
-      \     'linter_warnings': 'warning',
-      \     'linter_errors': 'error',
-      \     'linter_ok': 'left',
-      \ }
 let g:user_emmet_mode='a'
 let g:user_emmet_leader_key='<Tab>'
 let g:user_emmet_settings= {
@@ -235,11 +206,6 @@ let g:user_emmet_settings= {
     \ },
 \}
 
-let g:lightline#ale#indicator_checking = "\uf110"
-let g:lightline#ale#indicator_infos = "\uf129"
-let g:lightline#ale#indicator_warnings = "\uf071"
-let g:lightline#ale#indicator_errors = "\uf05e"
-let g:lightline#ale#indicator_ok = "\uf00c"
 
 
 "" Set this variable to 1 to fix files when you save them.
@@ -293,23 +259,18 @@ map <leader>q :NERDTreeFind<cr>
 function SwitchColorScheme(name)
   let g:VIM_COLOR_SCHEME = a:name
   call ColorScheme()
-  call lightline#init()
-  call lightline#colorscheme()
-  call lightline#update()
 endfunction
 
 function! ColorScheme()
   if g:VIM_COLOR_SCHEME ==# 'night-owl'
     " Lazy load theme in
     colorscheme night-owl
-    let g:lightline.colorscheme = 'nightowl'
   endif
 
 
   if g:VIM_COLOR_SCHEME ==# 'monokai'
     " Lazy load theme in
     colorscheme vim-monokai-tasty
-    let g:lightline.colorscheme = 'molokai'
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'nord'
@@ -319,27 +280,23 @@ function! ColorScheme()
     let g:nord_italic = 1
     let g:nord_cursor_line_number_background = 1
     colorscheme nord
-    let g:lightline.colorscheme = 'nord'
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'ayu-light'
     colorscheme ayu
     let g:ayucolor="light"
     set background=light
-    let g:lightline.colorscheme = 'default'
   endif
 
    if g:VIM_COLOR_SCHEME ==# 'ayu'
     colorscheme ayu
     set background=dark
     let g:ayucolor="mirage"
-    let g:lightline.colorscheme = 'ayu'
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'dracula'
     colorscheme dracula
     set background=dark
-    let g:lightline.colorscheme = 'default'
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'tender'
@@ -354,28 +311,22 @@ function! ColorScheme()
   if g:VIM_COLOR_SCHEME ==# 'papercolor-light'
     set background=light
     colorscheme PaperColor
-    let g:lightline = { 'colorscheme': 'PaperColor' }
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'gruvbox'
     set background=dark
     colorscheme gruvbox
-    let g:lightline.colorscheme = 'gruvbox'
-    "let g:lightline = { 'colorscheme': 'gruvbox' }
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'gruvbox-light'
     set background=light
     colorscheme gruvbox
-    let g:lightline.colorscheme = 'gruvbox'
-    "let g:lightline = { 'colorscheme': 'gruvbox' }
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'solarized-light'
     let g:solarized_termcolors = 256
     set background=light
     colorscheme solarized
-    let g:lightline = { 'colorscheme': 'solarized' }
   endif
 
 
@@ -384,20 +335,17 @@ function! ColorScheme()
     set background=dark
     set t_Co=16
     colorscheme solarized
-    let g:lightline = { 'colorscheme': 'solarized' }
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'paramount-light'
     set background=light
     colorscheme paramount
-    let g:lightline = { 'colorscheme': 'PaperColor' }
   endif
 
 
   if g:VIM_COLOR_SCHEME ==# 'paramount-dark'
     set background=dark
     colorscheme paramount
-    let g:lightline = { 'colorscheme': 'PaperColor' }
   endif
 
 endfunction
@@ -454,14 +402,6 @@ augroup END
 
 
 let g:vimspector_enable_mappings = 'HUMAN'
- """ custom status line start
-" status bar colors
-" au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
-" au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
-" hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
-
-" Status line
-" default: set statusline=%f\ %h%w%m%r\ %=%(%l,%c%V\ %=\ %P%)
 
 " Status Line Custom
 let g:currentmode={
@@ -500,12 +440,17 @@ set statusline+=%=                                       " Right Side
 set statusline+=%2*\ col:\ %02v\                         " Colomn number
 set statusline+=%3*│                                     " Separator
 set statusline+=%1*\ ln:\ %02l/%L\ (%3p%%)\              " Line number / total lines, percentage of document
-set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
+set statusline+=%0*\ %{ModeCurrent()}\ 
+" Function: return current mode
+" abort -> function will abort soon as error detected
+function! ModeCurrent() abort
+    let l:modecurrent = mode()
+    " use get() -> fails safely, since ^V doesn't seem to register
+    " 3rd arg is used when return of mode() == 0, which is case with ^V
+    " thus, ^V fails -> returns 0 -> replaced with 'V Block'
+    let l:modelist = toupper(get(g:currentmode, l:modecurrent, 'V·Block '))
+    let l:current_status_mode = l:modelist
+    return l:current_status_mode
+endfunction
 
-" hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
-" hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
-" hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
-" hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
-
-""" custom status line end
 
