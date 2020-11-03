@@ -11,8 +11,8 @@ general {
         interval = 5
 }
 
-order += "wireless _first_"
-order += "ethernet _first_"
+# order += "wireless _first_"
+# order += "ethernet _first_"
 order += "cpu_usage"
 order += "memory"
 order += "battery all"
@@ -41,11 +41,13 @@ load {
 }
 
 memory {
-        format = "%used | %available"
+        # format = "%used | %available"
+        format = "%available"
         threshold_degraded = "1G"
         format_degraded = "MEMORY < %available"
 }
 
 tztime local {
-        format = "%Y-%m-%d %H:%M:%S"
+        # format = "%Y-%m-%d %H:%M:%S"
+        format = "%A, %d.%m.%Y %H:%M:%S"
 }
