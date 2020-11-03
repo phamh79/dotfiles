@@ -1,6 +1,6 @@
 #!/bin/sh
-xrandr --setprovideroutputsource modesetting NVIDIA-0
-xrandr --auto
+# xrandr --setprovideroutputsource modesetting NVIDIA-0
+# xrandr -s 2560x1440
 
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
