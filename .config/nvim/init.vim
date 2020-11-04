@@ -24,7 +24,7 @@ Plug 'junegunn/goyo.vim'
 "Plug 'psliwka/vim-smoothie'
 "Plug 'yuttie/comfortable-motion.vim'
 
-"Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 "Plug 'ekalinin/dockerfile.vim'
 
 "git
@@ -109,10 +109,6 @@ set showbreak=↪
 " json
 autocmd FileType json syntax match Comment +\/\/.\+$+
 
-"set guifont=Fira\ Code\ Retina\ 11
-"let ayucolor="mirage"
-"color ayu
-
 "move block
 " vnoremap J :m '>+1<CR>gv=gv
 " vnoremap K :m '<-2<CR>gv=gv
@@ -136,9 +132,11 @@ command! -bang -nargs=* Rg
 
 "replace current word by copied word
 nnoremap <leader>raw "_dawhp
+
 "go lang
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
+
 " vim git gutter
 nmap [h <Plug>(GitGutterNextHunk)
 nmap ]h <Plug>(GitGutterPrevHunk)

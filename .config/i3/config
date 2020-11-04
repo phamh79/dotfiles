@@ -212,7 +212,7 @@ exec --no-startup-id fcitx-autostart
 # exec --no-startup-id ibus-daemon --xim -d -r
 
 exec --no-startup-id picom -b
-exec docker start mysql redis
+# exec docker start mysql redis
 exec systemctl --user start xfce4-notifyd
 #exec dunst
 # change gaps interactively
