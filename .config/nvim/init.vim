@@ -20,9 +20,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/goyo.vim'
-"Plug 'chiel92/vim-autoformat'
-"Plug 'psliwka/vim-smoothie'
-"Plug 'yuttie/comfortable-motion.vim'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 "Plug 'ekalinin/dockerfile.vim'
@@ -41,22 +38,12 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "theme
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'haishanh/night-owl.vim'
-Plug 'ayu-theme/ayu-vim'
-Plug 'arcticicestudio/nord-vim'
 Plug 'patstockwell/vim-monokai-tasty'
-Plug 'joshdick/onedark.vim'
-Plug 'jacoborus/tender.vim'
-Plug 'nlknguyen/papercolor-theme'
 Plug 'gruvbox-community/gruvbox'
-Plug 'owickstrom/vim-colors-paramount'
-Plug 'ryanoasis/vim-devicons'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 set termguicolors
-let g:gruvbox_contrast_dark = 'hard'
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -80,12 +67,9 @@ syntax on
 syntax enable
 set encoding=utf-8
 set fileencoding=utf-8
-" set nohlsearch
 "
 " Clean search (highlight)
 nnoremap <silent> <ESC><ESC> :noh<cr>"
-"keep 8 lines below
-set scrolloff=8
 filetype plugin indent on    " required
 set nomodeline
 set hidden
@@ -103,15 +87,8 @@ set softtabstop=4
 set expandtab
 set linebreak
 set showbreak=↪
-"set spell
-" 2 spaces indent for yaml files
-"autocmd FileType yaml,yml setlocal ts=2 sts=2 sw=2 expandtab
 " json
 autocmd FileType json syntax match Comment +\/\/.\+$+
-
-"move block
-" vnoremap J :m '>+1<CR>gv=gv
-" vnoremap K :m '<-2<CR>gv=gv
 
 nmap <C-e> :e#<CR>
 nmap ' :Buffers<CR>
@@ -140,10 +117,8 @@ autocmd FileType go nmap <leader>r  <Plug>(go-run)
 " vim git gutter
 nmap [h <Plug>(GitGutterNextHunk)
 nmap ]h <Plug>(GitGutterPrevHunk)
-" Better tabbing
-" vnoremap < <gv
-" vnoremap > >gv
-":verbose imap <tab>
+
+" coc-nvim start
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -190,11 +165,8 @@ nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 
 
-map <Leader>] :bprevious<CR>
-map <Leader>[] :bnext<CR>
-
+" coc-vim end
 "vim auto format
-"let g:python3_host_prog='/usr/bin/python'
 
 let g:user_emmet_mode='a'
 let g:user_emmet_leader_key='<Tab>'
@@ -204,39 +176,25 @@ let g:user_emmet_settings= {
     \ },
 \}
 
-
-
-"" Set this variable to 1 to fix files when you save them.
-"let g:ale_fixers = {
-"      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-"      \   'css': ['prettier', 'stylelint'],
-"      \   'javascript': ['eslint', 'prettier'],
-"      \   'python': ['isort', 'black'],
-"      \   'HTML': ['HTMLHint', 'proselint'],
-"      \   'go': ['gofmt'],
-"      \   'ruby': ['rubocop'],
-"      \}
-"let g:ale_fix_on_save = 1
-" let g:go_auto_sameids = 1
-" let g:go_auto_info = 1
-" let g:go_highlight_structs = 1
-" let g:go_highlight_interfaces = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_build_constraints = 1
-" let g:go_highlight_extra_types = 1
+let g:go_auto_sameids = 1
+let g:go_auto_info = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
 let g:go_highlight_function_parameters = 1
 let g:go_highlight_function_calls = 1
-" let g:go_highlight_types = 1
-" let g:go_hightlight_fields = 1
-" let g:go_highlight_generate_tags = 1
-" let g:go_highlight_variable_declarations = 1
-" let g:go_highlight_variable_assignments = 1
+let g:go_highlight_types = 1
+let g:go_hightlight_fields = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
 let g:go_fmt_command = "goimports"
 "gotests
 let g:gotests_bin = '/home/phucph4/go/bin/gotests'
-set updatetime=100
 
 "show white chars
 set list
@@ -260,90 +218,22 @@ function SwitchColorScheme(name)
 endfunction
 
 function! ColorScheme()
-  if g:VIM_COLOR_SCHEME ==# 'night-owl'
-    " Lazy load theme in
-    colorscheme night-owl
-  endif
-
 
   if g:VIM_COLOR_SCHEME ==# 'monokai'
     " Lazy load theme in
     colorscheme vim-monokai-tasty
   endif
 
-  if g:VIM_COLOR_SCHEME ==# 'nord'
-    " Lazy load theme in
-    let g:nord_underline = 1
-    let g:nord_italic_comments = 1
-    let g:nord_italic = 1
-    let g:nord_cursor_line_number_background = 1
-    colorscheme nord
-  endif
-
-  if g:VIM_COLOR_SCHEME ==# 'ayu-light'
-    colorscheme ayu
-    let g:ayucolor="light"
-    set background=light
-  endif
-
-   if g:VIM_COLOR_SCHEME ==# 'ayu'
-    colorscheme ayu
-    set background=dark
-    let g:ayucolor="mirage"
-  endif
-
-  if g:VIM_COLOR_SCHEME ==# 'dracula'
-    colorscheme dracula
-    set background=dark
-  endif
-
-  if g:VIM_COLOR_SCHEME ==# 'tender'
-    colorscheme tender
-  endif
-
-  if g:VIM_COLOR_SCHEME ==# 'onedark'
-    colorscheme onedark
-    set background=dark
-  endif
-
-  if g:VIM_COLOR_SCHEME ==# 'papercolor-light'
-    set background=light
-    colorscheme PaperColor
-  endif
 
   if g:VIM_COLOR_SCHEME ==# 'gruvbox'
     set background=dark
     colorscheme gruvbox
+    let g:gruvbox_contrast_dark = 'hard'
   endif
 
   if g:VIM_COLOR_SCHEME ==# 'gruvbox-light'
     set background=light
     colorscheme gruvbox
-  endif
-
-  if g:VIM_COLOR_SCHEME ==# 'solarized-light'
-    let g:solarized_termcolors = 256
-    set background=light
-    colorscheme solarized
-  endif
-
-
-  if g:VIM_COLOR_SCHEME ==# 'solarized-dark'
-    syntax enable
-    set background=dark
-    set t_Co=16
-    colorscheme solarized
-  endif
-
-  if g:VIM_COLOR_SCHEME ==# 'paramount-light'
-    set background=light
-    colorscheme paramount
-  endif
-
-
-  if g:VIM_COLOR_SCHEME ==# 'paramount-dark'
-    set background=dark
-    colorscheme paramount
   endif
 
 endfunction
@@ -385,70 +275,15 @@ augroup _fzf
   autocmd ColorScheme * call <sid>update_fzf_colors()
 augroup END
 
-let g:fugitive_gitlab_domains = ['https://gitlab.id.vin']
+let g:fugitive_gitlab_domains = ['https://gitlab.id.vin', 'https://github.com']
 
 " let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
-
-"*****************************************************************************
-"" Autocmd Rules
-"*****************************************************************************
-"" The PC is fast enough, do syntax highlight syncing from start unless 200 lines
-augroup vimrc-sync-fromstart
-  autocmd!
-  autocmd BufEnter * :syntax sync maxlines=200
-augroup END
 
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
-" Status Line Custom
-let g:currentmode={
-    \ 'n'  : 'Normal',
-    \ 'no' : 'Normal·Operator Pending',
-    \ 'v'  : 'Visual',
-    \ 'V'  : 'V·Line',
-    \ '^V' : 'V·Block',
-    \ 's'  : 'Select',
-    \ 'S'  : 'S·Line',
-    \ '^S' : 'S·Block',
-    \ 'i'  : 'Insert',
-    \ 'R'  : 'Replace',
-    \ 'Rv' : 'V·Replace',
-    \ 'c'  : 'Command',
-    \ 'cv' : 'Vim Ex',
-    \ 'ce' : 'Ex',
-    \ 'r'  : 'Prompt',
-    \ 'rm' : 'More',
-    \ 'r?' : 'Confirm',
-    \ '!'  : 'Shell',
-    \ 't'  : 'Terminal'
-    \}
-
+"always show statusline
 set laststatus=2
-set noshowmode
-set statusline=
-set statusline+=%0*\ %n\                                 " Buffer number
-set statusline+=%1*\ %<%F%m%r%h%w\                       " File path, modified, readonly, helpfile, preview
-set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %Y\                                 " FileType
-set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
-set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
-set statusline+=%=                                       " Right Side
-set statusline+=%2*\ col:\ %02v\                         " Colomn number
-set statusline+=%3*│                                     " Separator
-set statusline+=%1*\ ln:\ %02l/%L\ (%3p%%)\              " Line number / total lines, percentage of document
-set statusline+=%0*\ %{ModeCurrent()}\ 
-" Function: return current mode
-" abort -> function will abort soon as error detected
-function! ModeCurrent() abort
-    let l:modecurrent = mode()
-    " use get() -> fails safely, since ^V doesn't seem to register
-    " 3rd arg is used when return of mode() == 0, which is case with ^V
-    " thus, ^V fails -> returns 0 -> replaced with 'V Block'
-    let l:modelist = toupper(get(g:currentmode, l:modecurrent, 'V·Block '))
-    let l:current_status_mode = l:modelist
-    return l:current_status_mode
-endfunction
-
+"modifiedflag, charcount, filepercent, filepath
+set statusline=%=%m\ %c\ %P\ %f
 
