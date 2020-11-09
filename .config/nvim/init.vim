@@ -194,7 +194,7 @@ let g:go_highlight_variable_declarations = 1
 let g:go_highlight_variable_assignments = 1
 let g:go_fmt_command = "goimports"
 "gotests
-let g:gotests_bin = '/home/phucph4/go/bin/gotests'
+let g:gotests_bin = $HOME.'/go/bin/gotests'
 
 "show white chars
 set list
