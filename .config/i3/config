@@ -213,7 +213,6 @@ exec --no-startup-id fcitx-autostart
 
 exec --no-startup-id picom -b
 # exec docker start mysql redis
-exec systemctl --user start xfce4-notifyd
 #exec dunst
 # change gaps interactively
 bindsym $mod+minus gaps inner current minus 6

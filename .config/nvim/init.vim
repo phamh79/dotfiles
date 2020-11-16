@@ -156,7 +156,7 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Use `[c` and `]c` to navigate diagnostics
@@ -282,8 +282,8 @@ let g:fugitive_gitlab_domains = ['https://gitlab.id.vin', 'https://github.com']
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
-"always show statusline
-set laststatus=2
-"modifiedflag, charcount, filepercent, filepath
-set statusline=%=%m\ %c\ %P\ %f
+""always show statusline
+"set laststatus=2
+""modifiedflag, charcount, filepercent, filepath
+"set statusline=%=%m\ %c\ %P\ %f
 
