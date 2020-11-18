@@ -1,5 +1,6 @@
 #! /bin/sh
 
+wmname LG3D &
 sxhkd &
 
 bspc monitor -d 1 2 3 4 5 6 7 8 9 10
@@ -24,7 +25,7 @@ $HOME/.config/polybar/launch.sh
 # Make betterlockscreen generate and cache a background image for :locking
 # betterlockscreen -u $HOME/bluehill.jpg
 # # Set wallpaper
-feh --bg-fill $HOME/redsun.jpg
+feh --bg-fill $HOME/dotfiles/city.png
 # # Picom
 # picom --xrender-sync-fence
 # network manager applet

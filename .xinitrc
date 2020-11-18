@@ -12,6 +12,12 @@ sysmodmap=/etc/X11/xinit/.Xmodmap
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx &
+# export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true'
+export _JAVA_AWT_WM_NONREPARTENTING=1
+# export AWT_TOOLKIT=MToolkit
+export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
+export EDITOR=nvim
+export PATH=/var/lib/snapd/snap/bin:$PATH
 
 if [ -f $sysresources ]; then
     xrdb -merge $sysresources
@@ -39,3 +45,4 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 fi
 
 exec bspwm
+# exec i3
