@@ -9,7 +9,6 @@ super + Return
 # terminal emulator in same window as currently focused
 super + shift + Return
     google-chrome-stable
-    # qutebrowser
 
 super + shift + g
     google-chrome-stable
