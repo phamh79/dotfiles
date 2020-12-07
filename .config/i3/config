@@ -30,6 +30,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+exec --no-startup-id pamac-tray
+
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -187,16 +189,49 @@ gaps outer 0
 # Only enable gaps on a workspace when there is at least one container
 smart_gaps on
 
+# Only enable outer gaps when there is exactly one container
+smart_gaps inverse_outer
+
 # Enable popup during fullscreen
 popup_during_fullscreen smart
 
+# Open specific applications in floating mode
+for_window [title="alsamixer"] floating enable border pixel 1
+for_window [class="Calamares"] floating enable border normal
+for_window [class="Clipgrab"] floating enable
+for_window [title="File Transfer*"] floating enable
+for_window [class="Galculator"] floating enable border pixel 1
+for_window [class="GParted"] floating enable border normal
+for_window [title="i3_help"] floating enable sticky enable border normal
+for_window [class="Lightdm-gtk-greeter-settings"] floating enable
+for_window [class="Lxappearance"] floating enable sticky enable border normal
+for_window [class="Manjaro Settings Manager"] floating enable border normal
+for_window [class="Manjaro Welcome"] floating enable
+for_window [title="MuseScore: Play Panel"] floating enable
+for_window [class="Nitrogen"] floating enable sticky enable border normal
+for_window [class="Oblogout"] fullscreen enable
+for_window [class="octopi"] floating enable
+for_window [class="Pamac-manager"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="qt5ct"] floating enable sticky enable border normal
+for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
+for_window [class="Simple-scan"] floating enable border normal
+for_window [class="(?i)System-config-printer.py"] floating enable border normal
+for_window [class="Skype"] floating enable border normal
+for_window [class="Thus"] floating enable border normal
+for_window [class="Timeset-gui"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="Xfburn"] floating enable
+for_window [class="Firefox"] floating enable border none
+for_window [class="discord"] floating enable border none
+for_window [class="skypeforlinux"] floating enable border none
 for_window [class="XDM"] floating enable, border normal
 for_window [class="JetBrains Toolbox"] floating enable, border normal
 for_window [class="jetbrains-toolbox"] floating enable, border normal
 #for_window [class="rdm"] floating enable, border normal
 #for_window [class="RedisDesktopManager"] floating enable, border normal
 #exec --no-startup-id betterlockscreen -w dim
-bindsym $mod+shift+l exec betterlockscreen -l
+bindsym $mod+x exec betterlockscreen -l
 exec --no-startup-id xautolock -time 50 -locker 'betterlockscreen -l'
 
 #exec --no-startup-id wicd
@@ -205,7 +240,7 @@ exec --no-startup-id xautolock -time 50 -locker 'betterlockscreen -l'
 exec --no-startup-id libinput-gestures-setup start
 
 
-bindsym $mod+p --release exec deepin-screen-recorder
+bindsym $mod+p  exec --no-startup-id maim -s | xclip -selection clipboard -t image/png 
 # start fcitx 
 exec --no-startup-id fcitx-autostart
 # start ibus unikey
@@ -213,47 +248,38 @@ exec --no-startup-id fcitx-autostart
 
 exec --no-startup-id picom -b
 # exec docker start mysql redis
-#exec dunst
+exec dunst
+exec xfce4-power-manager
 # change gaps interactively
 bindsym $mod+minus gaps inner current minus 6
 bindsym $mod+plus gaps inner current plus 6
 focus_follows_mouse no
 
-exec --no-startup-id feh --bg-fill ~/bluehill.jpg
+exec --no-startup-id feh --bg-fill ~/city.png
 
-#######
-#THEME#
-#######
-
-# set primary gruvbox colorscheme colors
-set $bg #282828
-set $red #cc241d
-set $green #98971a
-set $yellow #d79921
-set $blue #458588
-set $purple #b16286
-set $aqua #689d68
-set $gray #a89984
-set $darkgray #1d2021
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+        i3bar_command i3bar -t
         status_command i3status
-        font pango: Roboto 13
+        font pango: Roboto 12
         colors {
             # bar background color
-            background $bg
+            background #FFFFFF00
+            # background #282828
+            # background $bg
             # text color used for blocks that do not have a color specified.
-            statusline $yellow
+            statusline #ebdbb2
             # workspaces section
             #                    border  backgr. text
-            focused_workspace    $aqua $aqua $darkgray
-            inactive_workspace   $darkgray $darkgray $yellow
-            active_workspace     $darkgray $darkgray $yellow
-            urgent_workspace     $red $red $bg
+            focused_workspace #689d6a #689d6a #282828 #1B2B34
+            inactive_workspace #32302f #32302f #928374 #D8DEE9
+            active_workspace #1d2021 #1d2021 #928374 #1B2B34
+            urgent_workspace #cc241d #cc241d #ebdbb2 #1B2B34
+            separator #928374
        }
-       position bottom
+       position top
        # tray_output all
 }
 
@@ -267,10 +293,10 @@ bar {
 #client.urgent           $red $red $white $red $red
 
 # blue gruvbox class                 border|backgr|text|indicator|child_border
-client.focused          $blue $blue $darkgray $purple $darkgray
-client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
-client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
-client.urgent           $red $red $white $red $red
+client.focused #689d6a #689d6a #282828 #282828
+client.focused_inactive #1d2021 #1d2021 #928374 #282828
+client.unfocused #32302f #32302f #928374 #282828
+client.urgent #cc241d #cc241d #ebdbb2 #282828
 
 #end of window title bars & borders section
 #
