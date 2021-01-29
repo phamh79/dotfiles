@@ -245,7 +245,7 @@ exec --no-startup-id xautolock -time 50 -locker 'betterlockscreen -l'
 exec --no-startup-id libinput-gestures-setup autostart
 exec --no-startup-id libinput-gestures-setup start
 
-bindsym $mod+p  exec --no-startup-id maim -s -u | xclip -selection clipboard -t image/png -i
+bindsym $mod+p  exec --no-startup-id deepin-screen-recorder
 
 # start fcitx 
 exec --no-startup-id fcitx-autostart
@@ -314,5 +314,7 @@ mode "moveit" {
     bindsym Right move right 20px
     bindsym Mod4+m mode "default"
 }
-bindsym Mod4+m focus floating; mode "moveit"
+bindsym $mod+m focus floating; mode "moveit"
+
+bindsym $mod+Shift+p exec --no-startup-id ~/display.sh                                                                                                                                                                                                       
 
