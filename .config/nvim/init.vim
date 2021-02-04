@@ -6,6 +6,8 @@ call plug#begin('~/.vim/plugged')
 "Plug 'tpope/vim-sensible'
 "Plug 'junegunn/seoul256.vim'
 " code
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
 Plug 'fatih/vim-go'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
@@ -178,20 +180,20 @@ let g:user_emmet_settings= {
 
 let g:go_auto_sameids = 1
 let g:go_auto_info = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_interfaces = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_types = 1
-let g:go_hightlight_fields = 1
-let g:go_highlight_generate_tags = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_highlight_variable_assignments = 1
+" let g:go_highlight_structs = 1
+" let g:go_highlight_interfaces = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_build_constraints = 1
+" let g:go_highlight_extra_types = 1
+" let g:go_highlight_function_parameters = 1
+" let g:go_highlight_function_calls = 1
+" let g:go_highlight_types = 1
+" let g:go_hightlight_fields = 1
+" let g:go_highlight_generate_tags = 1
+" let g:go_highlight_variable_declarations = 1
+" let g:go_highlight_variable_assignments = 1
 let g:go_fmt_command = "goimports"
 "gotests
 let g:gotests_bin = $HOME.'/go/bin/gotests'
@@ -282,8 +284,17 @@ let g:fugitive_gitlab_domains = ['https://gitlab.id.vin', 'https://github.com']
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
-""always show statusline
-"set laststatus=2
-""modifiedflag, charcount, filepercent, filepath
-"set statusline=%=%m\ %c\ %P\ %f
-
+" treesitter settings
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+}
+EOF
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+nmap <C-h> :foldclose<CR>
+nmap <C-l> :foldopen<CR>
