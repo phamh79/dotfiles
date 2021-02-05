@@ -296,5 +296,7 @@ require'nvim-treesitter.configs'.setup {
 EOF
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
-nmap <C-h> :foldclose<CR>
+nmap <C-h> :foldclose<CR> 
 nmap <C-l> :foldopen<CR>
+nmap <C-j> :set foldlevel=99<CR>
+nmap <C-k> :set foldlevel=0<CR>
