@@ -40,22 +40,23 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 "theme
-Plug 'sainnhe/gruvbox-material'
+" Plug 'sainnhe/gruvbox-material'
+Plug 'morhetz/gruvbox'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
-"gruvbox-material
+"gruvbox
 if has('termguicolors')
   set termguicolors
 endif
-set background=light
-let g:gruvbox_material_background = 'hard'
-let g:gruvbox_material_enable_italic = 1
-" let g:gruvbox_material_transparent_background = 1
-let g:gruvbox_material_diagnostic_line_highlight = 1
-let g:gruvbox_material_better_performance = 1
-colorscheme gruvbox-material
+set background=dark
+let g:gruvbox_italic=1
+let g:gruvbox_transparent_bg=1
+let g:gruvbox_contrast_dark='medium'
+let g:gruvbox_contrast_light='medium'
+let g:gruvbox_improved_warnings=1
+colorscheme gruvbox
 
 "set cursorline
 set lazyredraw
@@ -67,14 +68,13 @@ set backspace=2 " make backspace work like most other programs
 " search
 set smartcase
 set ignorecase
-
 set number
 set relativenumber
 syntax on
 syntax enable
 set encoding=utf-8
 set fileencoding=utf-8
-"
+
 " Clean search (highlight)
 nnoremap <silent> <ESC><ESC> :noh<cr>"
 filetype plugin indent on    " required
