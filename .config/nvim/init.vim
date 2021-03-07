@@ -2,62 +2,67 @@ let mapleader=","
 
 call plug#begin('~/.vim/plugged')
 
-" Declare the list of plugins.
-"Plug 'tpope/vim-sensible'
-"Plug 'junegunn/seoul256.vim'
-" code
+" auto complete
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" syntax highlight
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
+" Go
 Plug 'fatih/vim-go'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
 Plug 'buoto/gotests-vim'
+
+" debug
 Plug 'puremourning/vimspector'
-"Plug 'chr4/nginx.vim'
+
 " linters
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
+
 " helpers
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/goyo.vim'
 
+" markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-"Plug 'ekalinin/dockerfile.vim'
 
-"git
+" git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'rhysd/git-messenger.vim'
+
+" code comment
 Plug 'tpope/vim-commentary'
-Plug 'shumphrey/fugitive-gitlab.vim'
+
 "fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-"coc.vim
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "theme
-Plug 'patstockwell/vim-monokai-tasty'
-Plug 'gruvbox-community/gruvbox'
+Plug 'sainnhe/gruvbox-material'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
-set termguicolors
-if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+"gruvbox-material
+if has('termguicolors')
+  set termguicolors
 endif
-let g:gruvbox_invert_selection='0'
+set background=light
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_enable_italic = 1
+" let g:gruvbox_material_transparent_background = 1
+let g:gruvbox_material_diagnostic_line_highlight = 1
+let g:gruvbox_material_better_performance = 1
+colorscheme gruvbox-material
 
 "set cursorline
 set lazyredraw
 " always use system clipboard
 "set clipboard=unnamedplus
 
-" backspace does not delete line break
+" backspace does not delete line
 set backspace=2 " make backspace work like most other programs
 " search
 set smartcase
@@ -89,8 +94,6 @@ set softtabstop=4
 set expandtab
 set linebreak
 set showbreak=↪
-" json
-autocmd FileType json syntax match Comment +\/\/.\+$+
 
 nmap <C-e> :e#<CR>
 nmap ' :Buffers<CR>
@@ -112,9 +115,6 @@ command! -bang -nargs=* Rg
 "replace current word by copied word
 nnoremap <leader>raw "_dawhp
 
-"go lang
-autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
 
 " vim git gutter
 nmap [h <Plug>(GitGutterNextHunk)
@@ -136,9 +136,14 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+" Go mapping
 " disable vim-go :GoDef short cut (gd)
  " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
+"go lang
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap gf :GoFillStruct<cr>
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -165,35 +170,9 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-
-
-" coc-vim end
-"vim auto format
-
-let g:user_emmet_mode='a'
-let g:user_emmet_leader_key='<Tab>'
-let g:user_emmet_settings= {
-    \ 'javascript.jsx' : {
-    \ 'extends': 'jsx',
-    \ },
-\}
-
+"vim-go settings
 let g:go_auto_sameids = 1
 let g:go_auto_info = 1
-" let g:go_highlight_structs = 1
-" let g:go_highlight_interfaces = 1
-" let g:go_highlight_methods = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_build_constraints = 1
-" let g:go_highlight_extra_types = 1
-" let g:go_highlight_function_parameters = 1
-" let g:go_highlight_function_calls = 1
-" let g:go_highlight_types = 1
-" let g:go_hightlight_fields = 1
-" let g:go_highlight_generate_tags = 1
-" let g:go_highlight_variable_declarations = 1
-" let g:go_highlight_variable_assignments = 1
 let g:go_fmt_command = "goimports"
 "gotests
 let g:gotests_bin = $HOME.'/go/bin/gotests'
@@ -213,75 +192,6 @@ let g:NERDTreeMouseMode=3
 let g:NERDTreeShowHidden=1
 map <leader>q :NERDTreeFind<cr>
 
-" functions
-function SwitchColorScheme(name)
-  let g:VIM_COLOR_SCHEME = a:name
-  call ColorScheme()
-endfunction
-
-function! ColorScheme()
-
-  if g:VIM_COLOR_SCHEME ==# 'monokai'
-    " Lazy load theme in
-    colorscheme vim-monokai-tasty
-  endif
-
-
-  if g:VIM_COLOR_SCHEME ==# 'gruvbox'
-    set background=dark
-    colorscheme gruvbox
-    let g:gruvbox_contrast_dark = 'hard'
-  endif
-
-  if g:VIM_COLOR_SCHEME ==# 'gruvbox-light'
-    set background=light
-    colorscheme gruvbox
-  endif
-
-endfunction
-" Defaults
-:call SwitchColorScheme("gruvbox")
-
-"respect vim colorscheme
-function! s:update_fzf_colors()
-  let rules =
-  \ { 'fg':      [['Normal',       'fg']],
-    \ 'bg':      [['Normal',       'bg']],
-    \ 'hl':      [['Comment',      'fg']],
-    \ 'fg+':     [['CursorColumn', 'fg'], ['Normal', 'fg']],
-    \ 'bg+':     [['CursorColumn', 'bg']],
-    \ 'hl+':     [['Statement',    'fg']],
-    \ 'info':    [['PreProc',      'fg']],
-    \ 'prompt':  [['Conditional',  'fg']],
-    \ 'pointer': [['Exception',    'fg']],
-    \ 'marker':  [['Keyword',      'fg']],
-    \ 'spinner': [['Label',        'fg']],
-    \ 'header':  [['Comment',      'fg']] }
-  let cols = []
-  for [name, pairs] in items(rules)
-    for pair in pairs
-      let code = synIDattr(synIDtrans(hlID(pair[0])), pair[1])
-      if !empty(name) && code > 0
-        call add(cols, name.':'.code)
-        break
-      endif
-    endfor
-  endfor
-  let s:orig_fzf_default_opts = get(s:, 'orig_fzf_default_opts', $FZF_DEFAULT_OPTS)
-  let $FZF_DEFAULT_OPTS = s:orig_fzf_default_opts .
-        \ empty(cols) ? '' : (' --color='.join(cols, ','))
-endfunction
-
-augroup _fzf
-  autocmd!
-  autocmd ColorScheme * call <sid>update_fzf_colors()
-augroup END
-
-let g:fugitive_gitlab_domains = ['https://gitlab.id.vin', 'https://github.com']
-
-" let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
-
-
 let g:vimspector_enable_mappings = 'HUMAN'
 
 " treesitter settings
@@ -294,10 +204,12 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+
+" code folding
 set foldlevel=99
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 nmap <C-h> :foldclose<CR> 
 nmap <C-l> :foldopen<CR>
 nmap <C-j> :set foldlevel=99<CR>
-nmap <C-k> :set foldlevel=1<CR>
+nmap <C-k> :set foldlevel=0<CR>
