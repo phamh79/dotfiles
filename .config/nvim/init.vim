@@ -40,8 +40,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
 "theme
-" Plug 'sainnhe/gruvbox-material'
-Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
+" Plug 'morhetz/gruvbox'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
@@ -51,12 +51,13 @@ if has('termguicolors')
   set termguicolors
 endif
 set background=dark
-let g:gruvbox_italic=1
-let g:gruvbox_transparent_bg=1
-let g:gruvbox_contrast_dark='medium'
-let g:gruvbox_contrast_light='medium'
-let g:gruvbox_improved_warnings=1
-colorscheme gruvbox
+let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_statusline_style = 'original'
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_palette = 'original'
+colorscheme gruvbox-material
 
 "set cursorline
 set lazyredraw
@@ -143,7 +144,8 @@ let g:go_def_mapping_enabled = 0
 "go lang
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd FileType go nmap gf :GoFillStruct<cr>
+autocmd FileType go nmap gfs :GoFillStruct<cr>
+autocmd FileType go nmap gat :GoAddTags<cr>
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
