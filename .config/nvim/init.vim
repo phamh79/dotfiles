@@ -15,9 +15,6 @@ Plug 'buoto/gotests-vim'
 " debug
 Plug 'puremourning/vimspector'
 
-" linters
-Plug 'dense-analysis/ale'
-
 " helpers
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
