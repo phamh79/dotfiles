@@ -248,6 +248,8 @@ exec --no-startup-id xautolock -time 50 -locker 'betterlockscreen -l'
 #exec --no-startup-id wicd
 #exec --no-startup-id .config/polybar/launch.sh
 
+#polkit
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id libinput-gestures-setup autostart
 exec --no-startup-id libinput-gestures-setup start
 
