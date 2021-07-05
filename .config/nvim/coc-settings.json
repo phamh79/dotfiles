@@ -1,21 +1,29 @@
 {
-    "coc.preferences.formatOnSaveFiletypes": [
-        "css",
-        "markdown",
-        "javascript",
-        "graphql",
-        "html",
-        "yaml",
-        "yml",
-        "json",
-        "python"
-    ],
-    "coc.preferences.extensionUpdateCheck": "daily",
-    "java.maven.downloadSources": true,
-    "java.import.maven.enabled": true,
-    "java.import.gradle.enabled": true,
-    // codelens
-    "codeLens.enable": true,
-    "java.referencesCodeLens.enabled": true,
-    "java.jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar"
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "graphql",
+    "html",
+    "yml",
+    "yaml",
+    "conf",
+    "json",
+    "python"
+  ],
+  "coc.preferences.extensionUpdateCheck": "daily",
+  "java.maven.downloadSources": true,
+  "java.import.maven.enabled": true,
+  "java.import.gradle.enabled": true,
+  // codelens
+  "codeLens.enable": true,
+  "java.referencesCodeLens.enabled": true,
+  "java.jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar",
+  // coc.nvim auto completion
+  "languageserver": {
+    "go": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "trace.server": "verbose",
+      "filetypes": ["go"]
+    }
+  }
 }

@@ -5,6 +5,8 @@ call plug#begin('~/.vim/plugged')
 " auto complete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+Plug 'neovim/nvim-lspconfig'
+
 " syntax highlight
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
@@ -13,7 +15,7 @@ Plug 'fatih/vim-go'
 Plug 'buoto/gotests-vim'
 
 " debug
-Plug 'puremourning/vimspector'
+" Plug 'puremourning/vimspector'
 
 " helpers
 Plug 'scrooloose/nerdtree'
@@ -70,6 +72,7 @@ set number
 set relativenumber
 syntax on
 syntax enable
+set ruler
 set encoding=utf-8
 set fileencoding=utf-8
 
@@ -99,6 +102,7 @@ nnoremap <leader>d "_dd
 "fzf
 nnoremap <Leader>f :Files<Cr>
 nnoremap <Leader>t :Rg<Cr>
+nnoremap <Leader>w :Rg <C-R><C-W><Cr>
 let $FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
 
 command! -bang -nargs=* Rg
@@ -144,23 +148,23 @@ autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap gfs :GoFillStruct<cr>
 autocmd FileType go nmap gat :GoAddTags<cr>
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
 " nmap <silent> I <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> go :CocList outline<Cr>
+" nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> go :CocList outline<Cr>
 " Use U to show documentation in preview window
-nnoremap <silent> U :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+" nnoremap <silent> U :call <SID>show_documentation()<CR>
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocAction('doHover')
+"   endif
+" endfunction
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " Show all diagnostics
@@ -179,6 +183,10 @@ let g:gotests_bin = $HOME.'/go/bin/gotests'
 "show white chars
 set list
 set lcs=tab:\|\  "
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+
+
+
 " nerdCommenter
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
@@ -193,6 +201,72 @@ map <leader>q :NERDTreeFind<cr>
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
+" code folding
+set foldlevel=99
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+nmap <C-h> :foldclose<CR> 
+nmap <C-l> :foldopen<CR>
+nmap <C-j> :set foldlevel=99<CR>
+nmap <C-k> :set foldlevel=0<CR>
+
+" lspconfig settings
+lua << EOF
+require'lspconfig'.pyright.setup{}
+require'lspconfig'.gopls.setup{}
+require'lspconfig'.tsserver.setup{}
+require'lspconfig'.rust_analyzer.setup{}
+require'lspconfig'.diagnosticls.setup{}
+
+
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { "pyright", "rust_analyzer", "tsserver", "gopls", "diagnosticls" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+EOF
+
 " treesitter settings
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
@@ -203,12 +277,3 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
-
-" code folding
-set foldlevel=99
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-nmap <C-h> :foldclose<CR> 
-nmap <C-l> :foldopen<CR>
-nmap <C-j> :set foldlevel=99<CR>
-nmap <C-k> :set foldlevel=0<CR>
