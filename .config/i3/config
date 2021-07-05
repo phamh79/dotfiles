@@ -14,7 +14,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:SF Pro Text 14
+font pango:Cascadia Code 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -49,8 +49,7 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-#bindsym $mod+Return exec kitty
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 # start a browser
 bindsym $mod+Shift+g exec firefox
 # bindsym $mod+Shift+Return exec google-chrome-stable
@@ -61,7 +60,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
-bindsym $mod+space exec rofi -show drun -show-icons
+bindsym $mod+r exec rofi -show drun -show-icons
 
 bindsym $mod+Shift+d exec rofi -show run
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -181,7 +180,7 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-bindsym $mod+r mode "resize"
+# bindsym $mod+r mode "resize"
 
 # Disable titlebar
 new_window pixel 1
@@ -278,7 +277,7 @@ exec --no-startup-id feh --bg-fill ~/city.png
 bar {
         i3bar_command i3bar -t
         status_command i3status
-        font pango: SF Pro Text 12
+        font pango: Cascadia Code 9
         colors {
             # bar background color
             background #FFFFFF00
@@ -294,7 +293,7 @@ bar {
             urgent_workspace #cc241d #cc241d #ebdbb2 #1B2B34
             separator #928374
        }
-       position top
+       position bottom
        # tray_output all
 }
 
