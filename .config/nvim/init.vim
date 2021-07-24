@@ -16,6 +16,10 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'fatih/vim-go'
 Plug 'buoto/gotests-vim'
 
+" Java
+Plug 'mfussenegger/nvim-jdtls'
+
+"
 " debug
 " Plug 'puremourning/vimspector'
 
@@ -267,6 +271,24 @@ nmap <C-h> :foldclose<CR>
 nmap <C-l> :foldopen<CR>
 nmap <C-j> :set foldlevel=99<CR>
 nmap <C-k> :set foldlevel=0<CR>
+
+" java language specific
+if has('nvim-0.5')
+  augroup lsp
+    au!
+    au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
+  augroup end
+endif
+autocmd FileType java nnoremap <space>ca <Cmd>lua require('jdtls').code_action()<CR>
+autocmd FileType java nnoremap <space>r <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
+autocmd FileType java nnoremap gD <Cmd>lua vim.lsp.buf.declaration()<CR>
+autocmd FileType java nnoremap gd <Cmd>lua vim.lsp.buf.definition()<CR>
+autocmd FileType java nnoremap K <Cmd>lua vim.lsp.buf.hover()<CR>
+autocmd FileType java nnoremap gi <Cmd>lua vim.lsp.buf.implementation()<CR>
+autocmd FileType java nnoremap gr <Cmd>lua vim.lsp.buf.references()<CR>
+autocmd FileType java nnoremap ic <Cmd>lua vim.lsp.buf.incoming_calls()<CR>
+
+
 
 " lspconfig settings
 lua << EOF
