@@ -24,11 +24,21 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
 Plug 'dense-analysis/ale'
+Plug 'kevinhwang91/nvim-bqf'
+
+Plug 'ThePrimeagen/vim-be-good'
+Plug 'ray-x/lsp_signature.nvim'
+
+"editing
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+
 
 " markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'npxbr/glow.nvim', {'do': ':GlowInstall', 'branch': 'main'}
 
 " git
+Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
@@ -43,7 +53,10 @@ Plug 'junegunn/fzf.vim'
 
 "theme
 Plug 'sainnhe/gruvbox-material'
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
+
+
+" Plug 'ryanoasis/vim-devicons'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
@@ -52,7 +65,6 @@ call plug#end()
 if has('termguicolors')
   set termguicolors
 endif
-set background=dark
 let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_enable_bold = 1
@@ -60,6 +72,7 @@ let g:gruvbox_material_statusline_style = 'original'
 let g:gruvbox_material_better_performance = 1
 let g:gruvbox_material_palette = 'original'
 colorscheme gruvbox-material
+set background=dark
 
 "set cursorline
 set lazyredraw
@@ -73,11 +86,15 @@ set smartcase
 set ignorecase
 set number
 set relativenumber
+
 syntax on
 syntax enable
+" must be after syntax enable
+highlight LineNr guifg=#4fa64b
 set ruler
 set encoding=utf-8
 set fileencoding=utf-8
+
 
 " Clean search (highlight)
 nnoremap <silent> <ESC><ESC> :noh<cr>"
@@ -124,6 +141,11 @@ nnoremap <leader>raw "_dawhp
 " vim git gutter
 nmap [h <Plug>(GitGutterNextHunk)
 nmap ]h <Plug>(GitGutterPrevHunk)
+
+" builtin git
+nmap <leader>gs :G<CR>
+nmap <leader>gf :diffget //2<CR>
+nmap <leader>gj :diffget //3<CR>
 
 " nvim-compe
 set completeopt=menuone,noselect
@@ -211,17 +233,16 @@ autocmd FileType go nmap gfs :GoFillStruct<cr>
 autocmd FileType go nmap gat :GoAddTags<cr>
 
 "vim-go settings
-let g:go_auto_sameids = 1
-let g:go_auto_info = 1
+let g:go_auto_sameids = 0
+let g:go_auto_info = 0
 let g:go_fmt_command = "goimports"
 "gotests
 let g:gotests_bin = $HOME.'/go/bin/gotests'
 
 "show white chars
 set list
-set lcs=tab:\|\  "
+" set lcs=tab:\|\  "
 " set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-
 
 
 " nerdCommenter
@@ -254,6 +275,12 @@ require'lspconfig'.gopls.setup{}
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.diagnosticls.setup{}
+require "lsp_signature".setup{
+bind = true, -- This is mandatory, otherwise border config won't get registered.
+handler_opts = {
+    border = "single"
+    }
+}
 
 
 local nvim_lsp = require('lspconfig')
@@ -314,3 +341,5 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+
+
