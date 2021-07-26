@@ -27,7 +27,7 @@ Plug 'mfussenegger/nvim-jdtls'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'ThePrimeagen/vim-be-good'
@@ -58,6 +58,10 @@ Plug 'junegunn/fzf.vim'
 "theme
 Plug 'sainnhe/gruvbox-material'
 Plug 'morhetz/gruvbox'
+Plug 'Iron-E/nvim-highlite'
+Plug 'projekt0n/github-nvim-theme'
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'fxn/vim-monochrome'
 
 
 " Plug 'ryanoasis/vim-devicons'
@@ -65,10 +69,8 @@ Plug 'morhetz/gruvbox'
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
-"gruvbox
-if has('termguicolors')
-  set termguicolors
-endif
+set termguicolors
+
 let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_enable_italic = 1
 let g:gruvbox_material_enable_bold = 1
@@ -76,6 +78,8 @@ let g:gruvbox_material_statusline_style = 'original'
 let g:gruvbox_material_better_performance = 1
 let g:gruvbox_material_palette = 'original'
 colorscheme gruvbox-material
+" colorscheme highlite
+
 set background=dark
 
 "set cursorline
@@ -91,11 +95,11 @@ set ignorecase
 set number
 set relativenumber
 
-syntax on
-syntax enable
+" syntax on
+" syntax enable
 " must be after syntax enable
 highlight LineNr guifg=#4fa64b
-set ruler
+" set ruler
 set encoding=utf-8
 set fileencoding=utf-8
 
@@ -116,7 +120,7 @@ set signcolumn=yes
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-set expandtab
+" set expandtab
 set linebreak
 set showbreak=↪
 
@@ -244,7 +248,7 @@ let g:go_fmt_command = "goimports"
 let g:gotests_bin = $HOME.'/go/bin/gotests'
 
 "show white chars
-set list
+" set list
 " set lcs=tab:\|\  "
 " set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
@@ -279,7 +283,7 @@ if has('nvim-0.5')
     au FileType java lua require('jdtls').start_or_attach({cmd = {'java-lsp.sh'}})
   augroup end
 endif
-autocmd FileType java nnoremap <space>ca <Cmd>lua require('jdtls').code_action()<CR>
+autocmd FileType java nnoremap <space>ca <Cmd>lua require('jdtls').code_action(false, '')<CR>
 autocmd FileType java nnoremap <space>r <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
 autocmd FileType java nnoremap gD <Cmd>lua vim.lsp.buf.declaration()<CR>
 autocmd FileType java nnoremap gd <Cmd>lua vim.lsp.buf.definition()<CR>
@@ -287,7 +291,8 @@ autocmd FileType java nnoremap K <Cmd>lua vim.lsp.buf.hover()<CR>
 autocmd FileType java nnoremap gi <Cmd>lua vim.lsp.buf.implementation()<CR>
 autocmd FileType java nnoremap gr <Cmd>lua vim.lsp.buf.references()<CR>
 autocmd FileType java nnoremap ic <Cmd>lua vim.lsp.buf.incoming_calls()<CR>
-
+autocmd FileType java nnoremap ic <Cmd>lua vim.lsp.buf.incoming_calls()<CR>
+autocmd FileType java nnoremap <space>gi <Cmd>lua require('jdtls').organize_imports()<CR>
 
 
 " lspconfig settings
