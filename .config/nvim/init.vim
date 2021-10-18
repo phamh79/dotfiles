@@ -2,9 +2,21 @@ let mapleader=","
 
 call plug#begin('~/.vim/plugged')
 
+" file explorer
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'yamatsum/nvim-cursorline'
+
 " auto complete
-Plug 'hrsh7th/nvim-compe'
-Plug 'hrsh7th/vim-vsnip'
+" Install nvim-cmp
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp' 
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'onsails/lspkind-nvim'
+
 
 
 Plug 'neovim/nvim-lspconfig'
@@ -23,15 +35,13 @@ Plug 'mfussenegger/nvim-jdtls'
 " debug
 " Plug 'puremourning/vimspector'
 
-" helpers
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'dense-analysis/ale'
+" Plug 'windwp/nvim-autopairs'
+Plug 'dense-analysis/ale'
 Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'ThePrimeagen/vim-be-good'
-Plug 'ray-x/lsp_signature.nvim'
+" Plug 'ray-x/lsp_signature.nvim'
 
 "editing
 Plug 'tpope/vim-surround'
@@ -58,13 +68,7 @@ Plug 'junegunn/fzf.vim'
 "theme
 Plug 'sainnhe/gruvbox-material'
 Plug 'morhetz/gruvbox'
-Plug 'Iron-E/nvim-highlite'
-Plug 'projekt0n/github-nvim-theme'
-Plug 'tjdevries/colorbuddy.vim'
-Plug 'fxn/vim-monochrome'
-
-
-" Plug 'ryanoasis/vim-devicons'
+ Plug 'olimorris/onedark.nvim'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
@@ -121,11 +125,11 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 " set expandtab
-set linebreak
+set wrap linebreak
 set showbreak=↪
 
-nmap <C-e> :e#<CR>
-nmap ' :Buffers<CR>
+nnoremap <C-e> :e#<CR>
+nnoremap ' :Buffers<CR>
 nnoremap <leader>d "_dd
 "fzf
 nnoremap <Leader>f :Files<Cr>
@@ -155,80 +159,6 @@ nmap <leader>gs :G<CR>
 nmap <leader>gf :diffget //2<CR>
 nmap <leader>gj :diffget //3<CR>
 
-" nvim-compe
-set completeopt=menuone,noselect
-let g:compe = {}
-let g:compe.enabled = v:true
-let g:compe.autocomplete = v:true
-let g:compe.debug = v:false
-let g:compe.min_length = 1
-let g:compe.preselect = 'enable'
-let g:compe.throttle_time = 80
-let g:compe.source_timeout = 200
-let g:compe.resolve_timeout = 800
-let g:compe.incomplete_delay = 400
-let g:compe.max_abbr_width = 100
-let g:compe.max_kind_width = 100
-let g:compe.max_menu_width = 100
-let g:compe.documentation = v:true
-
-let g:compe.source = {}
-let g:compe.source.path = v:true
-let g:compe.source.buffer = v:true
-let g:compe.source.calc = v:true
-let g:compe.source.nvim_lsp = v:true
-let g:compe.source.nvim_lua = v:true
-let g:compe.source.vsnip = v:true
-let g:compe.source.ultisnips = v:true
-let g:compe.source.luasnip = v:true
-let g:compe.source.emoji = v:true
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-lua <<EOF
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif vim.fn['vsnip#available'](1) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
-  else
-    -- If <S-Tab> is not working in your terminal, change it to <C-h>
-    return t "<S-Tab>"
-  end
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-
-EOF
 
 " Go mapping
 " disable vim-go :GoDef short cut (gd)
@@ -248,22 +178,124 @@ let g:go_fmt_command = "goimports"
 let g:gotests_bin = $HOME.'/go/bin/gotests'
 
 "show white chars
-" set list
-" set lcs=tab:\|\  "
+set list
+set lcs=tab:\|\  "
 " set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
+"nvim tree
+" let g:nvim_tree_git_hl = 1
+" let g:nvim_tree_update_cwd = 1
+" let g:nvim_tree_indent_markers = 1
+" let g:nvim_tree_auto_close = 1
+" let g:nvim_tree_quit_on_open = 1
+" let g:nvim_tree_follow = 1
+let g:nvim_tree_icons = {
+    \ 'default': '',
+    \ 'symlink': '',
+    \ 'git': {
+    \   'unstaged': "✗",
+    \   'staged': "✓",
+    \   'unmerged': "",
+    \   'renamed': "➜",
+    \   'untracked': "★",
+    \   'deleted': "",
+    \   'ignored': "◌"
+    \   },
+    \ 'folder': {
+    \   'arrow_open': "",
+    \   'arrow_closed': "",
+    \   'default': "",
+    \   'open': "",
+    \   'empty': "",
+    \   'empty_open': "",
+    \   'symlink': "",
+    \   'symlink_open': "",
+    \   },
+    \   'lsp': {
+    \     'hint': "",
+    \     'info': "",
+    \     'warning': "",
+    \     'error': "",
+    \   }
+    \ }
+nnoremap <C-g> :NvimTreeToggle<CR>
+" nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <C-n> :NvimTreeFindFile<CR>
 
-" nerdCommenter
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
+lua << EOF
+-- following options are the default
+require'nvim-tree'.setup {
+  nvim_tree_git_hl = 1,
+  nvim_tree_update_cwd = 1,
+  nvim_tree_indent_markers = 1,
+  nvim_tree_auto_close = 1,
+  nvim_tree_quit_on_open = 1,
+  nvim_tree_follow = 1,
+  nvim_tree_follow    = true,
+  -- disables netrw completely
+  disable_netrw       = true,
+  -- hijack netrw window on startup
+  hijack_netrw        = true,
+  -- open the tree when running this setup function
+  open_on_setup       = false,
+  -- will not open on setup if the filetype is in this list
+  ignore_ft_on_setup  = {},
+  -- closes neovim automatically when the tree is the last **WINDOW** in the view
+  auto_close          = false,
+  -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
+  open_on_tab         = false,
+  -- hijacks new directory buffers when they are opened.
+  update_to_buf_dir   = {
+    -- enable the feature
+    enable = true,
+    -- allow to open the tree if it was previously closed
+    auto_open = true,
+  },
+  -- hijack the cursor in the tree to put it at the start of the filename
+  hijack_cursor       = false,
+  -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
+  update_cwd          = false,
+  -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
+  update_focused_file = {
+    -- enables the feature
+    enable      = false,
+    -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
+    -- only relevant when `update_focused_file.enable` is true
+    update_cwd  = false,
+    -- list of buffer names / filetypes that will not update the cwd if the file isn't found under the current root directory
+    -- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
+    ignore_list = {}
+  },
+  -- configuration options for the system open command (`s` in the tree by default)
+  system_open = {
+    -- the command to run this, leaving nil should work in most cases
+    cmd  = nil,
+    -- the command arguments as a list
+    args = {}
+  },
 
-" NERDTree
-:nnoremap <C-g> :NERDTreeToggle<CR>
+  view = {
+    -- width of the window, can be either a number (columns) or a string in `%`, for left or right side placement
+    width = 30,
+    -- height of the window, can be either a number (columns) or a string in `%`, for top or bottom side placement
+    height = 30,
+    -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
+    side = 'left',
+    -- if true the tree will resize itself after opening a file
+    auto_resize = false,
+    mappings = {
+      -- custom only false will merge the list with the default mappings
+      -- if true, it will only use your list to set the mappings
+      custom_only = false,
+      -- list of mappings to set on the tree manually
+      list = {}
+    }
+  }
+}
+EOF
+
 
 :set mouse=a
-let g:NERDTreeMouseMode=3
-let g:NERDTreeShowHidden=1
-map <leader>q :NERDTreeFind<cr>
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
@@ -302,12 +334,6 @@ require'lspconfig'.gopls.setup{}
 require'lspconfig'.tsserver.setup{}
 require'lspconfig'.rust_analyzer.setup{}
 require'lspconfig'.diagnosticls.setup{}
-require "lsp_signature".setup{
-bind = true, -- This is mandatory, otherwise border config won't get registered.
-handler_opts = {
-    border = "single"
-    }
-}
 
 
 local nvim_lsp = require('lspconfig')
@@ -368,5 +394,91 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+
+
+lua <<EOF
+require('lspkind').init({
+    -- enables text annotations
+    --
+    -- default: true
+    with_text = true,
+
+    -- default symbol map
+    -- can be either 'default' (requires nerd-fonts font) or
+    -- 'codicons' for codicon preset (requires vscode-codicons font)
+    --
+    -- default: 'default'
+    preset = 'codicons',
+
+    -- override preset symbols
+    --
+    -- default: {}
+    symbol_map = {
+      Text = "",
+      Method = "",
+      Function = "",
+      Constructor = "",
+      Field = "ﰠ",
+      Variable = "",
+      Class = "ﴯ",
+      Interface = "",
+      Module = "",
+      Property = "ﰠ",
+      Unit = "塞",
+      Value = "",
+      Enum = "",
+      Keyword = "",
+      Snippet = "",
+      Color = "",
+      File = "",
+      Reference = "",
+      Folder = "",
+      EnumMember = "",
+      Constant = "",
+      Struct = "פּ",
+      Event = "",
+      Operator = "",
+      TypeParameter = ""
+    },
+})
+
+local lspkind = require('lspkind')
+
+vim.o.completeopt = 'menuone,noselect'
+-- luasnip setup
+local luasnip = require 'luasnip'
+local cmp = require'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+  formatting = {
+    format = function(entry, vim_item)
+      vim_item.kind = lspkind.presets.default[vim_item.kind]
+      return vim_item
+    end
+  }
+}
+EOF
+
 
 
